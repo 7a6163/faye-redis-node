@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ main, master, develop ]
+    branches: [main]
   pull_request:
-    branches: [ main, master, develop ]
+    branches: [main]
 
 jobs:
   test:
@@ -16,7 +16,7 @@ jobs:
 
     services:
       redis:
-        image: redis:7-alpine
+        image: valkey/valkey:9-alpine
         ports:
           - 6379:6379
         options: >-
@@ -35,15 +35,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
-
-      - name: Check Redis connection
-        run: |
-          redis-cli -h localhost ping
-          echo "✅ Redis is ready"
 
       - name: Run syntax check
         run: node -c faye-redis.js
@@ -67,7 +62,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: "22"
 
       - name: Install dependencies
         run: npm ci
