@@ -3,7 +3,7 @@ name: Publish to npm
 on:
   push:
     tags:
-      - 'v*' # Triggers on version tags like v1.0.1, v1.2.0, etc.
+      - "v*" # Triggers on version tags like v1.0.1, v1.2.0, etc.
 
 jobs:
   publish:
@@ -11,7 +11,7 @@ jobs:
 
     permissions:
       contents: write # Needed to create GitHub releases
-      id-token: write # Needed for npm provenance and OIDC trusted publishing
+      id-token: write # Needed for npm provenance
 
     steps:
       - name: Checkout code
@@ -22,9 +22,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
-          registry-url: 'https://registry.npmjs.org'
-          # No need for NODE_AUTH_TOKEN with Trusted Publishing
+          node-version: "22"
 
       - name: Install dependencies
         run: npm ci
@@ -42,11 +40,11 @@ jobs:
           fi
           echo "✅ Version match: $PACKAGE_VERSION"
 
-      - name: Build package
-        run: npm pack
-
-      - name: Publish to npm (Trusted Publishing with OIDC)
-        run: npm publish --access public --provenance
+      - name: Publish to npm
+        uses: JS-DevTools/npm-publish@v4
+        with:
+          access: public
+          provenance: true
 
       - name: Extract changelog for this version
         id: changelog
@@ -59,14 +57,12 @@ jobs:
           echo "✅ Extracted changelog for v$TAG_VERSION"
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
-          files: '*.tgz'
+          files: "*.tgz"
           body_path: .release-notes.md
           draft: false
           prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Success notification
         run: |
