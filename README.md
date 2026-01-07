@@ -1,8 +1,8 @@
 # faye-redis-ng
 
-[![npm version](https://badge.fury.io/js/faye-redis-ng.svg)](https://www.npmjs.com/package/faye-redis-ng)
+![NPM Version](https://img.shields.io/npm/v/faye-redis-ng)
 [![Node.js Version](https://img.shields.io/node/v/faye-redis-ng.svg)](https://nodejs.org)
-[![CI](https://github.com/7a6163/faye-redis-node/workflows/CI/badge.svg)](https://github.com/YOUR-USERNAME/faye-redis-ng/actions)
+[![CI](https://github.com/7a6163/faye-redis-node/workflows/CI/badge.svg)](https://github.com/7a6163/faye-redis-node/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 **Next Generation** Redis backend engine for [Faye](http://faye.jcoglan.com) - A modern, maintained fork with Redis v4 support, ES6+ syntax, and automatic reconnection.
